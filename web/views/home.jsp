@@ -1,6 +1,5 @@
 <%@page import="models.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <%  
     HttpSession s=request.getSession(false);  
     String username=(String)s.getAttribute("username");
