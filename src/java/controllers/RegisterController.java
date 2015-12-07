@@ -24,9 +24,6 @@ public class RegisterController extends HttpServlet{
             user.setPassword(request.getParameter("password"));
             user.setEmail(request.getParameter("email"));
             user.register();
-            pw.println("<br>");
-            pw.println("<br>");
-            pw.println("<center>Great!!!</center>");
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request,response);
             } finally {pw.close();}
