@@ -10,7 +10,9 @@ and open the template in the editor.
     <head>
         <title>Login</title>
         <%@ include file="template/head.html" %>
-    </head>
+        
+        <script src="js/jquery.js"></script>
+</head>
     <body>
         <div class="container">
             <jsp:useBean id="user" scope="request" class="models.User"></jsp:useBean>
