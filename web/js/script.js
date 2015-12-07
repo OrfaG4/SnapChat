@@ -37,9 +37,31 @@
                 });
                 $('#cameraNames').val(camera);
             }
+
+            function chat(){
+              new Ajax.Request('/SnapChat/chat', {
+              method: 'post',
+              parameters:'message='+$('#message').value + "by="+$('head title').text(),
+              });
+
+            }
+            
+            function updateChat(){
+                new Ajax.PeriodicalUpdater('chatArea', '/SnapChat/chat?time='+Math.random()*99999,{
+                    method: 'get'
+                });
+            };
             
             $(document).ready(function() {
+                
                 $('#showHideBtn').click(function() {
                     $('#showHide').toggle("slide");
                 });
+                $('#send').click(function(){
+                    chat();
+                    alert('abc');
+                });
+                
             });
+            
+           
