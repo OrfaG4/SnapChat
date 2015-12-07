@@ -22,6 +22,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private boolean online;
     
     /**
      *  Constructor
@@ -33,6 +34,7 @@ public class User {
         username="";
         password="";
         email="";
+        online=false;
     }
     
     /**
@@ -61,6 +63,12 @@ public class User {
     public String getEmail(){
         return email;
     }
+
+    public boolean isOnline() {
+        return online;
+    }
+    
+    
     
     /**
      *   Setters
@@ -88,6 +96,11 @@ public class User {
     public void setEmail(String email) {
         this.email=email;
     }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+    
 
     /**
      *  Login
@@ -127,6 +140,7 @@ public class User {
                 username= rs.getString("username");
                 password = rs.getString("password");
                 email = rs.getString("email");
+                online = rs.getBoolean("online");
             }
             s.close();
             con.close();
@@ -151,15 +165,14 @@ public class User {
     /**
      *  select all users
      */
-    public ArrayList<User> getAllUsers() throws SQLException{
-        
+    public ArrayList<User> getNotMyFriends() throws SQLException{
         PreparedStatement pst = null;
         ResultSet rs;
         ArrayList<User> users = new ArrayList<User>();
         DB db=new DB();
         
         Connection con= db.connect();
-        String sqlString = "SELECT * FROM users WHERE users.username <> "+"'"+username+"'";
+        String sqlString = "SELECT * FROM users, friends WHERE users.id NOT IN (SELECT friends.friendId from friends) AND users.id <> "+"'"+id+"'"+"GROUP BY users.username";
             pst = con.prepareStatement("");
             pst.executeQuery(sqlString);
             rs = pst.getResultSet();
@@ -169,6 +182,32 @@ public class User {
                 user.setLname(rs.getString("lname"));
                 user.setFname(rs.getString("fname"));
                 user.setUsername(rs.getString("username"));
+                users.add(user);
+            }
+            rs.close();
+            pst.close();
+
+        return users;
+    }
+    
+    public ArrayList<User> getAllMyFriends() throws SQLException{
+        PreparedStatement pst = null;
+        ResultSet rs;
+        ArrayList<User> users = new ArrayList<User>();
+        DB db=new DB();
+        
+        Connection con= db.connect();
+        String sql = "SELECT users.id, users.lname, users.fname, users.username, users.online FROM users,friends WHERE friends.friendId  = users.id AND friends.myId = "+"'"+id+"'";
+            pst = con.prepareStatement("");
+            pst.executeQuery(sql);
+            rs = pst.getResultSet();
+            while(rs.next()){
+                User user = new User();
+                user.setId(rs.getString("id"));
+                user.setLname(rs.getString("lname"));
+                user.setFname(rs.getString("fname"));
+                user.setUsername(rs.getString("username"));
+                user.setOnline(rs.getBoolean("online"));
                 users.add(user);
             }
             rs.close();
