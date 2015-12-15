@@ -14,7 +14,13 @@ import java.util.logging.Logger;
  *
  * @author SnapChat TEAM
  */
-public class User {
+public class ChatUser {
+    
+    public static int OFFLINE = 0;
+    public static int ONLINE = 1;
+    public static int USER = 0;
+    public static int ADMIN = 1;
+    public static int SUPPORT = 2;
     
     private String id;
     private String fname;
@@ -23,11 +29,12 @@ public class User {
     private String password;
     private String email;
     private boolean online;
+    private int status = 0;
     
     /**
      *  Constructor
      */
-    public User(){
+    public ChatUser(){
         id="";
         fname="";
         lname="";
@@ -37,6 +44,14 @@ public class User {
         online=false;
     }
     
+    public ChatUser(String id, String fname, String lname, String username, String password, String email){
+        this.id=id;
+        this.fname=fname;
+        this.lname=lname;
+        this.username=username;
+        this.password=password;
+        this.email=email;
+    }
     /**
      *   Getters
      */
@@ -68,6 +83,9 @@ public class User {
         return online;
     }
     
+    public int getStatus() {
+        return status;
+    }
     
     
     /**
@@ -100,7 +118,10 @@ public class User {
     public void setOnline(boolean online) {
         this.online = online;
     }
-    
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     /**
      *  Login
@@ -145,39 +166,65 @@ public class User {
             s.close();
             con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChatUser.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
+    public ArrayList<ChatUser> getAllUsers() throws SQLException{
+        PreparedStatement pst = null;
+        ResultSet rs;
+        ArrayList<ChatUser> users = new ArrayList<ChatUser>();
+        DB db=new DB();
+        Connection con= db.connect();
+        String sql = "SELECT * FROM users";
+            pst = con.prepareStatement("");
+            pst.executeQuery(sql);
+            rs = pst.getResultSet();
+            while(rs.next()){
+                ChatUser user = new ChatUser();
+                user.setId(rs.getString("id"));
+                user.setLname(rs.getString("lname"));
+                user.setFname(rs.getString("fname"));
+                user.setUsername(rs.getString("username"));
+                user.setOnline(rs.getBoolean("online"));
+                
+                users.add(user);
+            }
+            rs.close();
+            pst.close();
+            con.close();
+        return users;
+    }
+    
     public void register(){
         try{    
             DB db=new DB();
             Connection con= db.connect();
-            String sqlString="INSERT INTO users (lname,fname,username,password,email) VALUES ('"+fname+"','"+lname+"','"+username+"','"+password+"','"+email+"')";
+            String sqlString="INSERT INTO users (lname,fname,username,password,email,online) VALUES ('"+fname+"','"+lname+"','"+username+"','"+password+"','"+email+"','"+0+"')";
             Statement s = con.createStatement();
             try{    
                 s.executeUpdate(sqlString);
                 s.close();
                 con.close();
-            } catch (SQLException ex) {Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);}
-        } catch (SQLException ex) {Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);}  
+            } catch (SQLException ex) {Logger.getLogger(ChatUser.class.getName()).log(Level.SEVERE, null, ex);}
+        } catch (SQLException ex) {Logger.getLogger(ChatUser.class.getName()).log(Level.SEVERE, null, ex);}  
     }
     
     /**
      *  select all users
      */
-    public ArrayList<User> getNotMyFriends() throws SQLException{
+    public ArrayList<ChatUser> getNotMyFriends() throws SQLException{
         PreparedStatement pst = null;
         ResultSet rs;
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<ChatUser> users = new ArrayList<ChatUser>();
         DB db=new DB();
         
         Connection con= db.connect();
-        String sqlString = "SELECT * FROM users, friends WHERE users.id NOT IN (SELECT friends.friendId from friends) AND users.id <> "+"'"+id+"'"+"GROUP BY users.username";
+        String sqlString = "SELECT * FROM users, friends WHERE users.id NOT IN (SELECT friends.friendId from friends WHERE friends.myId = "+"'"+id+"'"+") AND users.id <> "+"'"+id+"'"+"GROUP BY users.username";
             pst = con.prepareStatement("");
             pst.executeQuery(sqlString);
             rs = pst.getResultSet();
             while(rs.next()){
-                User user = new User();
+                ChatUser user = new ChatUser();
                 user.setId(rs.getString("id"));
                 user.setLname(rs.getString("lname"));
                 user.setFname(rs.getString("fname"));
@@ -186,14 +233,15 @@ public class User {
             }
             rs.close();
             pst.close();
+            con.close();
 
         return users;
     }
     
-    public ArrayList<User> getAllMyFriends() throws SQLException{
+    public ArrayList<ChatUser> getAllMyFriends() throws SQLException{
         PreparedStatement pst = null;
         ResultSet rs;
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<ChatUser> users = new ArrayList<ChatUser>();
         DB db=new DB();
         
         Connection con= db.connect();
@@ -202,7 +250,7 @@ public class User {
             pst.executeQuery(sql);
             rs = pst.getResultSet();
             while(rs.next()){
-                User user = new User();
+                ChatUser user = new ChatUser();
                 user.setId(rs.getString("id"));
                 user.setLname(rs.getString("lname"));
                 user.setFname(rs.getString("fname"));
@@ -212,6 +260,7 @@ public class User {
             }
             rs.close();
             pst.close();
+            con.close();
 
         return users;
     }
