@@ -19,9 +19,9 @@
             function base64_toimage() {
                 $('#image').attr("src","data:image/png;base64,"+$.scriptcam.getFrameAsBase64());
             };
-            function base64_tofield_and_image(b64) {
-                $('#formfield').val(b64);
-                $('#image').attr("src","data:image/png;base64,"+b64);
+            function base64_tofield_and_image() {
+                $('#formfield').val($.scriptcam.getFrameAsBase64());
+                $('#image').attr("src","data:image/png;base64,"+$.scriptcam.getFrameAsBase64());
             };
             function changeCamera() {
                 $.scriptcam.changeCamera($('#cameraNames').val());
@@ -37,31 +37,12 @@
                 });
                 $('#cameraNames').val(camera);
             }
-
-            function chat(){
-              new Ajax.Request('/SnapChat/chat', {
-              method: 'post',
-              parameters:'message='+$('#message').value + "by="+$('head title').text(),
-              });
-
-            }
-            
-            function updateChat(){
-                new Ajax.PeriodicalUpdater('chatArea', '/SnapChat/chat?time='+Math.random()*99999,{
-                    method: 'get'
-                });
-            };
             
             $(document).ready(function() {
                 
                 $('#showHideBtn').click(function() {
                     $('#showHide').toggle("slide");
                 });
-                $('#send').click(function(){
-                    chat();
-                    alert('abc');
-                });
-                
             });
             
            
