@@ -22,6 +22,11 @@
  - ολοκλήρωση  testing στα models.
  - Ολοκλήρωση του chat για μηνύματα.
  - Ολοκλήρωση προσθήκης φίλων.
+ 
+
+## Version 0.4 Coming after X-mas (xx/xx/xxxx)
+ -Θα μπορούμε να κάνουμε edit τις φωτογραφιές
+ -Bugs fixing
 
 
  
