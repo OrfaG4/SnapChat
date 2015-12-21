@@ -1,3 +1,4 @@
+
 package controllers;
 
 public class ChatConfig {
@@ -20,3 +21,4 @@ public class ChatConfig {
     //max retrun chat messages per single Ajax call
     public static int RECIEVE_MAX_MESSAGE_PER_CALL=10;
 }
+
