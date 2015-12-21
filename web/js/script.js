@@ -23,6 +23,15 @@
                 $('#formfield').val($.scriptcam.getFrameAsBase64());
                 $('#image').attr("src","data:image/png;base64,"+$.scriptcam.getFrameAsBase64());
             };
+            
+            function base64_tofield_and_image_new() {
+                var can = $("#myCanvas");
+                var src = can[0].toDataURL("image/png");
+                var value = src.replace("data:image/png;base64,","")
+                $('#formfield').val(value);
+                $('#image').attr("src",src);
+            };
+            
             function changeCamera() {
                 $.scriptcam.changeCamera($('#cameraNames').val());
             }
