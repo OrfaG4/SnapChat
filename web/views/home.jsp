@@ -90,9 +90,6 @@
                 objDiv.innerHTML=objDiv.innerHTML+'<div class="col-md-12 chat-message1"><br><font color=black>'+nameValue+' says : '+textValue+'</font>'+'<br><img src="data:image/jpg; base64,'+b64+' " /></div>';
                 document.getElementById('input_'+user_no).value='';
                 scroll_down(user_no);
-                document.getElementById('state_'+user_no).src='/WebChatApp/images/empty.png';
-                document.getElementById('state_'+user_no).width=1;
-                document.getElementById('state_'+user_no).hight=1;
             }
             function receive_message(user_no,name,message,time,b64){
                 var objDiv = document.getElementById('scroll3_'+user_no);
@@ -100,7 +97,7 @@
                     openNewChat(user_no,name);
                     objDiv = document.getElementById('scroll3_'+user_no);
                 }
-                objDiv.innerHTML=objDiv.innerHTML+'<div class="col-md-12 chat-message2"><br><font color=blue>'+name+' says : '+message+'</font>'+'<br><img src="data:image/png; base64,'+base64_url_decode(b64)+' " /></div>';
+                objDiv.innerHTML=objDiv.innerHTML+'<div class="col-md-12 chat-message2 arrived-'+time+'"><br><font color=blue>'+name+' says : '+message+'</font>'+'<br><img src="data:image/png; base64,'+base64_url_decode(b64)+' " /></div>';
                 scroll_down(user_no);
                 document.getElementById('state_'+user_no).src='/WebChatApp/images/report.gif';
                 document.getElementById('state_'+user_no).width=15;
@@ -147,6 +144,29 @@
 </div>';
                 objDiv.innerHTML=objDiv.innerHTML+mytext;
             }
+            
+            
+            function hideAfterSeconds(){
+                $.each( $('.chat-message2'), function() {
+                    if($(this).attr('class')!=null){
+                        var sep1 = $(this).attr('class').split(" ");
+                        console.log(sep1);
+                        var sep2 = sep1[2].split("-");
+                        var sep3 = sep2[1].split(":");
+                        var now = new Date();
+                        var dateSent = new Date(now.getFullYear(),now.getMonth(),now.getDate(), sep3[0],sep3[1],sep3[2]);
+                        diff = now.getTime() - dateSent.getTime();
+                        diff = diff/1000;
+                        //alert(dateSent);
+                        if(diff>10){
+                            diff=0;
+                            $(this).hide();
+                        }
+                    }
+                });
+            }
+            
+            
             function update(){
                 getMessages(<%= activeUser.getId()%>);
                 refresh++;
@@ -155,6 +175,7 @@
                     refresh=0;
                     refreshContactList();
                 }
+                hideAfterSeconds();
                 setTimeout("update()",refreshRate);
             }
             function updateUserStatus(user_no,user_name,newStatus){
@@ -180,7 +201,30 @@
                     <h1>Κάνε Snap</h1>
                     <button class="btn btn-default takeSnap" id="btn2" onclick="base64_tofield_and_image()">Snap!</button><br/><br/>
                     <img id="image"/>
-                    <textarea style="display:none;" id="formfield" style="width:190px;height:70px;"></textarea>
+                    <textarea  id="formfield" style="width:190px;height:70px; display: none;"></textarea>
+                    <h3>Canvas</h3>
+                    <canvas id="myCanvas" width="320" height="240"></canvas>
+                    <input type="text" id="canvasText" style="display: none;">
+                    <button class="btn btn-default" style="display: none" id="canvasWrite">Γράψε στην εικόνα</button>
+                    <button class="btn btn-success btn-sm" onclick="base64_tofield_and_image_new()" style="display: none" id="canvasOk">OK!</button>
+                    
+                    <script type="text/javascript">
+                        $('#btn2').click(function(){
+                            var c=document.getElementById("myCanvas");
+                            var ctx=c.getContext("2d");
+                            var img=document.getElementById("image");
+                            ctx.drawImage(img,0,10);
+                            ctx.font = "48px serif";
+                            ctx.fillStyle = 'white';
+                            $("#canvasText").show();
+                            $("#canvasWrite").show();
+                            $("#canvasOk").show();
+                            $("#canvasWrite").click(function(){
+                               ctx.fillText($("#canvasText").val(),10,50);
+                            });
+                        });
+                    </script>
+                    <br>
                     <a href="/SnapChat1/ChatServlet?step=5&userId=<%= activeUser.getId()%>" id="showHideBtn" class="btn btn-danger col-md-6">Αποσύνδεση</a>
                 </div>
                  <div class="col-md-3">
