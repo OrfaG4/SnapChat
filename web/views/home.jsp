@@ -181,13 +181,22 @@
             function updateUserStatus(user_no,user_name,newStatus){
                 //document.getElementById('user_'+user_no).src='/SnapChat1/images/'+type+newStatus+'.png';
                 if(newStatus==<%=ChatUser.ONLINE%>){
+                    alert("online");
                     document.getElementById('user_'+user_no).onclick=function(){ openNewChat(user_no,user_name)}
                     $('#user_'+user_no).prop('disabled', false);
                 }else{
                     document.getElementById('user_'+user_no).onclick="";
+                    alert("offline");
                     $('#user_'+user_no).prop('disabled', true);
                 }
             }
+            
+            $(document).ready(function(){
+                $('.clearSnap').click(function(){
+                    //alert("abc");
+                    $('#formfield').val("");
+                })
+            })
         </script>             
     </head>
     <body  onload='setTimeout("update()",refreshRate);'>
@@ -195,13 +204,22 @@
 	<%@ include file="../template/menu.html" %>
         <div class="container-fluid">
             <div class="col-md-12">
+                <div class="bg-success col-md-12" style="padding:20px; margin:20px;" >
+                    <span class="h3">Αναζήτηση </span>
+                    <form class="form-inline" action="search" method="POST">
+                        <input type='text' name="username" value="<jsp:getProperty name="user" property="username"/>">
+                        <button class="btn btn-primary" type="submit">Αναζήτηση</button>
+                    </form>
+                    
+                </div>
                 <!-- Create Message Area -->
                 <div class="col-md-3">
                     <div id="webcam"></div>
                     <h1>Κάνε Snap</h1>
                     <button class="btn btn-default takeSnap" id="btn2" onclick="base64_tofield_and_image()">Snap!</button><br/><br/>
+                    <button class="btn btn-primary clearSnap">Clear Snap</button><br/><br/>
                     <img id="image"/>
-                    <textarea  id="formfield" style="width:190px;height:70px; display: none;"></textarea>
+                    <textarea  id="formfield" style="width:190px; height:70px; display:none;"></textarea>
                     <h3>Canvas</h3>
                     <canvas id="myCanvas" width="320" height="240"></canvas>
                     <input type="text" id="canvasText" style="display: none;">
