@@ -1,292 +1,136 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package models;
 
-import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import java.io.Serializable;
 
-/**
- *
- * @author TROUP
- */
-public class ChatUserTest {
-    
-    ChatUser mockObj = new ChatUser("1","First","Last","user","pass","a@b.com");
-    
-    public ChatUserTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
+
+public class ChatMessage implements Serializable {
+    public static int NEW_MESSAGE_TYPE=0;
+    public static int RETURN_MESSAGE_TYPE=1;
+    private String message;
+    private int from_user;
+    private int to_user;
+    private String from_user_name;
+    private String messageTime;
+    private String b64;
+    private int messageType=0;
+    public ChatMessage(String message, int from_user, int to_user, String from_user_name, String messageTime, String b64){
+        this.message = message;
+        this.from_user = from_user;
+        this.to_user = to_user;
+        this.from_user_name = from_user_name;
+        this.messageTime = messageTime;
+        this.b64 = b64;
     }
     
-    @AfterClass
-    public static void tearDownClass() {
+    public ChatMessage(){
+        
+    }
+    public String toXML(){
+        return "<chat_message><from_user>"+from_user+"</from_user><from_user_name>"+from_user_name+"</from_user_name><message>"+message+"</message><message_type>"+messageType+"</message_type></chat_message>";
+    }
+    public String toMultipleValues(){
+        return from_user+"ø"+from_user_name+"ø"+message+"ø"+b64+"ø";
+    }
+    public void returnMessage(){
+        int temp=this.from_user;
+        this.from_user=this.to_user;
+        this.to_user=temp;
+        this.messageType=1;
     }
     
-    @Before
-    public void setUp() {
-        mockObj = mock(ChatUser.class);
+        
+    public String getB64() {
+        return b64;
     }
-    
-    @After
-    public void tearDown() {
+    public void setB64(String b64){
+        this.b64 = b64;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     /**
-     * Test of getId method, of class ChatUser.
+     * @param message the message to set
      */
-    @Test
-    public void testGetId() {
-        System.out.println("getId");
-        ChatUser instance = new ChatUser("1","First","Last","user","pass","a@b.com");
-        assertNotNull(instance);
-        String expResult = "1";
-        String result = instance.getId();
-        assertEquals(expResult, result);
+    public void setMessage(String message) {
+        this.message = message;
+        //prevent html tags
+        this.message=this.message.replaceAll("<", "&lt;");
+        //prevent special split charachter
+        this.message=this.message.replaceAll("ø", "");
     }
 
     /**
-     * Test of getLname method, of class ChatUser.
+     * @return the from_user
      */
-    @Test
-    public void testGetLname() {
-        System.out.println("getLname");
-        ChatUser instance = new ChatUser("1","First","Last","user","pass","a@b.com");
-        String expResult = "Last";
-        String result = instance.getLname();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+    public int getFrom_user() {
+        return from_user;
     }
 
     /**
-     * Test of getFname method, of class ChatUser.
+     * @param from_user the from_user to set
      */
-    @Test
-    public void testGetFname() {
-        System.out.println("getFname");
-        ChatUser instance = new ChatUser("1","First","Last","user","pass","a@b.com");
-        String expResult = "First";
-        String result = instance.getFname();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+    public void setFrom_user(int from_user) {
+        this.from_user = from_user;
     }
 
     /**
-     * Test of getUsername method, of class ChatUser.
+     * @return the to_user
      */
-    @Test
-    public void testGetUsername() {
-        System.out.println("getUsername");
-        ChatUser instance = new ChatUser("1","First","Last","user","pass","a@b.com");
-        String expResult = "user";
-        String result = instance.getUsername();
-        assertEquals(expResult, result);
+    public int getTo_user() {
+        return to_user;
     }
 
     /**
-     * Test of getPassword method, of class ChatUser.
+     * @param to_user the to_user to set
      */
-    @Test
-    public void testGetPassword() {
-        System.out.println("getPassword");
-        ChatUser instance = new ChatUser("1","First","Last","user","pass","a@b.com");
-        String expResult = "pass";
-        String result = instance.getPassword();
-        assertEquals(expResult, result);
+    public void setTo_user(int to_user) {
+        this.to_user = to_user;
     }
 
     /**
-     * Test of getEmail method, of class ChatUser.
+     * @return the from_user_name
      */
-    @Test
-    public void testGetEmail() {
-        System.out.println("getEmail");
-        ChatUser instance = new ChatUser("1","First","Last","user","pass","a@b.com");
-        String expResult = "a@b.com";
-        String result = instance.getEmail();
-        assertEquals(expResult, result);
+    public String getFrom_user_name() {
+        return from_user_name;
     }
 
     /**
-     * Test of getStatus method, of class ChatUser.
+     * @param from_user_name the from_user_name to set
      */
-    @Test
-    public void testGetStatus() {
-        System.out.println("getStatus");
-        ChatUser instance = new ChatUser();
-        int expResult = 0;
-        int result = instance.getStatus();
-        assertEquals(expResult, result);
+    public void setFrom_user_name(String from_user_name) {
+        this.from_user_name = from_user_name;
     }
 
     /**
-     * Test of setId method, of class ChatUser.
+     * @return the messageTime
      */
-    @Test
-    public void testSetId() {
-        System.out.println("setId");
-        String id = "5";
-        ChatUser instance = new ChatUser();
-        instance.setId(id);
-        assertEquals(id,instance.getId());
+    public String getMessageTime() {
+        return messageTime;
     }
 
     /**
-     * Test of setLname method, of class ChatUser.
+     * @param messageTime the messageTime to set
      */
-    @Test
-    public void testSetLname() {
-        System.out.println("setLname");
-        String lname = "Last";
-        ChatUser instance = new ChatUser();
-        instance.setLname(lname);
-        assertEquals(lname,instance.getLname());
+    public void setMessageTime(String messageTime) {
+        this.messageTime = messageTime;
     }
 
     /**
-     * Test of setFname method, of class ChatUser.
+     * @return the messageType
      */
-    @Test
-    public void testSetFname() {
-        System.out.println("setFname");
-        String fname = "First";
-        ChatUser instance = new ChatUser();
-        instance.setFname(fname);
-        assertEquals(fname,instance.getFname());
+    public int getMessageType() {
+        return messageType;
     }
 
     /**
-     * Test of setUsername method, of class ChatUser.
+     * @param messageType the messageType to set
      */
-    @Test
-    public void testSetUsername() {
-        System.out.println("setUsername");
-        String username = "user";
-        ChatUser instance = new ChatUser();
-        instance.setUsername(username);
-        assertEquals(username,instance.getUsername());
-    }
-
-    /**
-     * Test of setPassword method, of class ChatUser.
-     */
-    @Test
-    public void testSetPassword() {
-        System.out.println("setPassword");
-        String password = "pass";
-        ChatUser instance = new ChatUser();
-        instance.setPassword(password);
-        assertEquals(password,instance.getPassword());
-    }
-
-    /**
-     * Test of setEmail method, of class ChatUser.
-     */
-    @Test
-    public void testSetEmail() {
-        System.out.println("setEmail");
-        String email = "a@b.com";
-        ChatUser instance = new ChatUser();
-        instance.setEmail(email);
-        assertEquals(email,instance.getEmail());
-    }
-
-    /**
-     * Test of setStatus method, of class ChatUser.
-     */
-    @Test
-    public void testSetStatus() {
-        System.out.println("setStatus");
-        int status = 1;
-        ChatUser instance = new ChatUser();
-        instance.setStatus(status);
-        assertEquals(status,instance.getStatus());
-    }
-
-    /**
-     * Test of LoginUser method, of class ChatUser.
-     */
-    @Test
-    public void testLoginUser() {
-        System.out.println("LoginUser");
-        String username = "admin";
-        String password = "1111";
-        boolean expResult = true;
-        boolean result = ChatUser.LoginUser(username, password);
-        assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testLoginUserWrongInput() {
-        System.out.println("LoginUser");
-        String username = "wrong";
-        String password = "wrong";
-        boolean result = ChatUser.LoginUser(username, password);
-        assertFalse(result);
-    }
-
-    /**
-     * Test of getUser method, of class ChatUser.
-     */
-    @Test
-    public void testGetUser() {
-        System.out.println("getUser");
-        ChatUser instance = new ChatUser();
-        instance.setUsername("admin");
-        instance.getUser();
-        assertNotNull(instance.getId());
-    }
-
-    /**
-     * Test of getAllUsers method, of class ChatUser.
-     */
-    @Test
-    public void testGetAllUsers() throws Exception {
-        System.out.println("getAllUsers");
-        ChatUser instance = new ChatUser("1","John","Doe","admin","1111","a@b.com");
-        ArrayList<ChatUser> result = instance.getAllUsers();
-        assertTrue(result.size()>0);
-    }
-
-    /**
-     * Test of register method, of class ChatUser.
-     */
-    @Test
-    public void testRegister() {
-        System.out.println("register");
-        mockObj.register();
-    }
-
-    /**
-     * Test of getNotMyFriends method, of class ChatUser.
-     */
-    @Test
-    public void testGetNotMyFriends() throws Exception {
-        System.out.println("getNotMyFriends");
-        ChatUser instance = new ChatUser("1","John","Doe","admin","1111","a@b.com");
-        ArrayList<ChatUser> result = instance.getNotMyFriends();
-        assertTrue(result.size()>0);
-    }
-
-    /**
-     * Test of getAllMyFriends method, of class ChatUser.
-     */
-    @Test
-    public void testGetAllMyFriends() throws Exception {
-        System.out.println("getAllMyFriends");
-        ChatUser instance = new ChatUser("1","John","Doe","admin","1111","a@b.com");
-        ArrayList<ChatUser> result = instance.getAllMyFriends();
-        assertTrue(result.size()>0);
+    public void setMessageType(int messageType) {
+        this.messageType = messageType;
     }
     
 }
+
