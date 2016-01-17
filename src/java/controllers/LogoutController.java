@@ -6,6 +6,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,8 @@ public class LogoutController extends HttpServlet{
         session.invalidate();
     }
 
+    PrintWriter pw = response.getWriter();
+    pw.println("log out");
     response.sendRedirect("index");
     }
     @Override
