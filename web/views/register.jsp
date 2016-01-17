@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="models.User"%>
+<%@page import="models.ChatUser"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,7 +9,7 @@
         <script src="../js/jquery.js"></script>
     </head>
     <body>
-        <jsp:useBean id="user" scope="request" class="models.User"></jsp:useBean>
+        <jsp:useBean id="user" scope="request" class="models.ChatUser"></jsp:useBean>
         <div class="container-fluid">
             <form action="../register" method="POST">
                 <section class="container">
