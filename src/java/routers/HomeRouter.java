@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import models.User;
+import models.ChatUser;
 
 public class HomeRouter extends HttpServlet{
     protected void home(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException{
@@ -28,8 +28,8 @@ public class HomeRouter extends HttpServlet{
             pw.println("Δέν έχετε δικαίωμα πρόσβασης");
             pw.println("<a href='index'>Συνδεθείτε</a>");
         }else{
-            ArrayList<User> friends = new ArrayList<User>();
-            User user = new User();
+            ArrayList<ChatUser> friends = new ArrayList<ChatUser>();
+            ChatUser user = new ChatUser();
             user.setUsername(s.getAttribute("username").toString());
             user.getUser();
             friends = user.getAllMyFriends();
