@@ -195,6 +195,33 @@ public class ChatUser {
         return users;
     }
     
+    
+    public ChatUser getSearchedUser(String username) throws SQLException{
+        PreparedStatement pst = null;
+        ResultSet rs;
+        ArrayList<ChatUser> users = new ArrayList<ChatUser>();
+        DB db=new DB();
+        Connection con= db.connect();
+        String sql = "SELECT * FROM users where username = '"+username+"'";
+            pst = con.prepareStatement("");
+            pst.executeQuery(sql);
+            rs = pst.getResultSet();
+            ChatUser user = null;
+            while(rs.next()){
+                user = new ChatUser();
+                user.setId(rs.getString("id"));
+                user.setLname(rs.getString("lname"));
+                user.setFname(rs.getString("fname"));
+                user.setUsername(rs.getString("username"));
+                user.setOnline(rs.getBoolean("online"));
+                break;
+            }
+            rs.close();
+            pst.close();
+            con.close();
+            return user;
+    }
+    
     public void register(){
         try{    
             DB db=new DB();
