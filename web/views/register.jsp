@@ -1,12 +1,12 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="models.User"%>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Register</title>
-        <%@ include file="../template/head.html" %>
         <link rel="stylesheet" href="../css/bootstrap.css" />
+	<link rel="stylesheet" href="../css/custom.css" />
+        <script src="../js/jquery.js"></script>
     </head>
     <body>
         <jsp:useBean id="user" scope="request" class="models.User"></jsp:useBean>
