@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="models.User"%>
+<%@page import="models.ChatUser"%>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -15,7 +15,7 @@ and open the template in the editor.
 </head>
     <body>
         <div class="container">
-            <jsp:useBean id="user" scope="request" class="models.User"></jsp:useBean>
+            <jsp:useBean id="user" scope="request" class="models.ChatUser"></jsp:useBean>
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-md-offset-4">
                     <h1 class="text-center login-title">Συνδέσου στο SnapChat τώρα!</h1>
