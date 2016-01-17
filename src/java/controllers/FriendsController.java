@@ -13,26 +13,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import models.User;
+import models.ChatUser;
 
 public class FriendsController extends HttpServlet{
     protected void friends(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException{
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<ChatUser> users = new ArrayList<ChatUser>();
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
         PrintWriter pw = response.getWriter();
-        if(s.getAttribute("username") == null){
-            pw.println("Δέν έχετε δικαίωμα πρόσβασης");
-            pw.println("<a href='index'>Συνδεθείτε</a>");
-        }else{
-            User user = new User();
+        if(s != null && s.getAttribute("username") != null){
+            ChatUser user = new ChatUser();
             user.setUsername(s.getAttribute("username").toString());
             user.getUser();
-            users = user.getAllUsers();
+            users = user.getNotMyFriends();
             request.setAttribute("users",users);
             RequestDispatcher rd1 = request.getRequestDispatcher("views/friends.jsp");
             rd1.forward(request,response);
-
+        }else{
+            pw.println("Δέν έχετε δικαίωμα πρόσβασης");
+            pw.println("<a href='index'>Συνδεθείτε</a>");
         }
     }
     
