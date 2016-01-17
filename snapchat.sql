@@ -2,10 +2,10 @@
 -- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Φιλοξενητής: 127.0.0.1
--- Χρόνος δημιουργίας: 07 Δεκ 2015 στις 02:41:47
--- Έκδοση διακομιστή: 10.1.9-MariaDB
--- Έκδοση PHP: 5.6.15
+-- Host: 127.0.0.1
+-- Generation Time: Jan 17, 2016 at 11:49 PM
+-- Server version: 10.1.8-MariaDB
+-- PHP Version: 5.6.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Βάση δεδομένων: `snapchat`
+-- Database: `snapchat`
 --
 
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `friends`
+-- Table structure for table `friends`
 --
 
 CREATE TABLE `friends` (
@@ -33,17 +33,25 @@ CREATE TABLE `friends` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Άδειασμα δεδομένων του πίνακα `friends`
+-- Dumping data for table `friends`
 --
 
 INSERT INTO `friends` (`myId`, `friendId`, `status`) VALUES
 (1, 5, '0'),
-(1, 6, '0');
+(1, 6, '0'),
+(1, 9, '0'),
+(5, 1, '0'),
+(5, 6, '0'),
+(6, 1, '0'),
+(6, 5, '0'),
+(6, 9, '0'),
+(9, 1, '0'),
+(9, 6, '0');
 
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -57,51 +65,49 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Άδειασμα δεδομένων του πίνακα `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `lname`, `fname`, `username`, `password`, `email`, `online`) VALUES
-(1, 'test', 'test', 'test', '1111', 'foo@snapchat.com', 0),
-(5, 'Giwrgos', 'Gkeliris', 'J0elGk', '1111', 'george_tame@hotmail.com', 0),
-(6, 'Giwrgos', 'Orfanidis', 'Orfa', '1111', 'georgeorfanidis@hotmail.com', 0),
-(7, 'Rania', 'Georgiadi', 'RaniaWay', '1111', 'raniaway@hotmail.com', 0),
-(9, 'Dimitris', 'Karantelos', 'dimitrisKK', '1111', 'dimitriskk@hotmail.com', 0),
-(10, 'Dimitris', 'Karantelos', 'dimitrisKK', '1111', 'dimitriskk@hotmail.com', 0),
-(11, 'Kostas', 'Prodromou', 'KPro', '1111', 'kostas_prod@gmail.com', 0),
-(12, 'Smaro', 'Pourgani', 'Smaro', '1111', 'smaro@hotmail.com', 0);
+(1, 'admin', 'admin', 'admin', '1111', 'admin@snapchat.com', 0),
+(5, 'Orfanidis', 'Giorgos', 'orfa', '1111', 'fsafsa@fd.com', 0),
+(6, 'Pourganh', 'Smaro', 'smaro', '1111', 'fsafsa@fd.com', 0),
+(8, 'Prodromou', 'Kostas', 'kostas', '1111', 'a@b.com', 0),
+(9, 'Karantelos', 'Dimitris', 'dimitris', '1111', 'a@b.com', 0),
+(10, 'Gkeliris', 'Giorgos', 'Gkel', '1111', 'aa@hotmail.com', 0);
 
 --
--- Ευρετήρια για άχρηστους πίνακες
+-- Indexes for dumped tables
 --
 
 --
--- Ευρετήρια για πίνακα `friends`
+-- Indexes for table `friends`
 --
 ALTER TABLE `friends`
   ADD PRIMARY KEY (`myId`,`friendId`),
   ADD KEY `friend_two` (`friendId`);
 
 --
--- Ευρετήρια για πίνακα `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT για άχρηστους πίνακες
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT για πίνακα `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
--- Περιορισμοί για άχρηστους πίνακες
+-- Constraints for dumped tables
 --
 
 --
--- Περιορισμοί για πίνακα `friends`
+-- Constraints for table `friends`
 --
 ALTER TABLE `friends`
   ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`myId`) REFERENCES `users` (`id`),
