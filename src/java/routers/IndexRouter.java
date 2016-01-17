@@ -30,5 +30,3 @@ public class IndexRouter extends HttpServlet{
             index(request, response);
         }
 }
-
-
