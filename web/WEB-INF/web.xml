@@ -28,15 +28,38 @@
         <servlet-name>AddFriendController</servlet-name>
         <servlet-class>controllers.AddFriendController</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>ChatController</servlet-name>
+        <servlet-class>controllers.ChatController</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>controllers.ChatServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>SearchController</servlet-name>
+        <servlet-class>controllers.SearchController</servlet-class>
+    </servlet>
     <!-- **************************************************************** -->
+    
+    <servlet-mapping>
+        <servlet-name>SearchController</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>HomeRouter</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -57,6 +80,16 @@
         <servlet-name>AddFriendController</servlet-name>
         <url-pattern>/add</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatController</servlet-name>
+        <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/ChatServlet</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
