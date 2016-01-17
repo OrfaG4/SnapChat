@@ -20,11 +20,15 @@ public class AddFriendController extends HttpServlet{
 
         pw.println(request.getParameter("friendId"));
         Friend f = new Friend();
-        f.setMyId(s.getAttribute("id").toString());
-        f.setFriendId(request.getParameter("friendId"));
-        f.addFriend(Integer.valueOf(f.getMyId()), Integer.valueOf(f.getFriendId()));
-        RequestDispatcher rd1 = request.getRequestDispatcher("home");
-        rd1.forward(request,response);    
+        if(s != null){
+            f.setMyId(s.getAttribute("id").toString());
+            f.setFriendId(request.getParameter("friendId"));
+            f.addFriend(Integer.valueOf(f.getMyId()), Integer.valueOf(f.getFriendId()));
+            RequestDispatcher rd1 = request.getRequestDispatcher("home");
+            rd1.forward(request,response);
+        }else{
+            pw.println("Something went wrong");
+        }
     }
     
     @Override
