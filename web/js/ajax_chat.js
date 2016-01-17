@@ -4,7 +4,7 @@ var getXmlHttp = null ;
 var contactXmlHttp = null ;
 function sendMessage(from_user,name,to_user,message,b64){;
     createSendXmlHttpRequest();
-    sendXmlHttp.open("POST",'/SnapChat1/ChatServlet?step=2&from_user='+from_user+'&from_user_name='+name+'&to_user='+to_user+'&message='+message,true);
+    sendXmlHttp.open("POST",'/SnapChat3/ChatServlet?step=2&from_user='+from_user+'&from_user_name='+name+'&to_user='+to_user+'&message='+message,true);
     sendXmlHttp.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
     sendXmlHttp.send(b64);
 }
@@ -12,7 +12,7 @@ function sendMessage(from_user,name,to_user,message,b64){;
 function getMessages(user_id){
     createGetXmlHttpRequest();
     getXmlHttp.onreadystatechange = handleRequestMessages;
-    getXmlHttp.open("POST",'/SnapChat1/ChatServlet?step=3&userId='+user_id,true);
+    getXmlHttp.open("POST",'/SnapChat3/ChatServlet?step=3&userId='+user_id,true);
     getXmlHttp.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
     getXmlHttp.send("<?XML version=\"1.0\" encoding=\"UTF-8\"?>");
 }
@@ -20,7 +20,7 @@ function getMessages(user_id){
 function refreshContactList(){
     createContactXmlHttpRequest();
     contactXmlHttp.onreadystatechange = handleRequestContacts;
-    contactXmlHttp.open("POST",'/SnapChat1/ChatServlet?step=4',true);
+    contactXmlHttp.open("POST",'/SnapChat3/ChatServlet?step=4',true);
     contactXmlHttp.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
     contactXmlHttp.send("<?XML version=\"1.0\" encoding=\"UTF-8\"?>");
 }
@@ -74,7 +74,9 @@ function handleRequestMessages(){
     }
 }
 function handleRequestContacts(){
+    
     if(contactXmlHttp.readyState == 4){
+        
         no_of_contacts=contactXmlHttp.getResponseHeader("contact_count");
         xmlvalue=contactXmlHttp.responseText;
         if(xmlvalue == null){
@@ -87,7 +89,6 @@ function handleRequestContacts(){
                 var user_no = tokens[n];
                 var user_name = tokens[n+1];
                 var newStatus = tokens[n+2];
-                //alert(user_no+" "+user_name+" "+newStatus);
                 updateUserStatus(user_no,user_name,newStatus);
             }
         }
