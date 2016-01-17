@@ -14,6 +14,18 @@ public class ChatMessage implements Serializable {
     private String messageTime;
     private String b64;
     private int messageType=0;
+    public ChatMessage(String message, int from_user, int to_user, String from_user_name, String messageTime, String b64){
+        this.message = message;
+        this.from_user = from_user;
+        this.to_user = to_user;
+        this.from_user_name = from_user_name;
+        this.messageTime = messageTime;
+        this.b64 = b64;
+    }
+    
+    public ChatMessage(){
+        
+    }
     public String toXML(){
         return "<chat_message><from_user>"+from_user+"</from_user><from_user_name>"+from_user_name+"</from_user_name><message>"+message+"</message><message_type>"+messageType+"</message_type></chat_message>";
     }
