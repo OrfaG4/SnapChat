@@ -1,3 +1,9 @@
+body{
+    min-height: 800px;
+    background-image:url(../img/bg.jpg);
+    background-size: 100% 120%;
+    background-repeat: no-repeat;
+}
 .form-signin
 {
     max-width: 330px;
@@ -91,4 +97,10 @@ textarea{
     word-break: break-all; 
     padding:5px; 
     border-radius:5px
+}
+
+.smallList tr td{
+    padding: 0;
+
+    background-color: red;
 }
