@@ -13,9 +13,13 @@ public class Friend {
     public Friend() {
         myId="";
         friendId="";
-        status="";
     }
 
+    
+    public Friend(String myId, String friendId){
+        this.myId = myId;
+        this.friendId = friendId;
+    }
     
     
     public String getMyId() {
@@ -26,10 +30,6 @@ public class Friend {
         return friendId;
     }
 
-    public String getStatus() {
-        return status;
-    }
-    
     public void setMyId(String myId) {
         this.myId = myId;
     }
@@ -37,22 +37,22 @@ public class Friend {
     public void setFriendId(String friendId) {
         this.friendId = friendId;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
     
     public void addFriend(int myId, int friendId){
         try{    
             DB db=new DB();
             Connection con= db.connect();
             String sqlString="INSERT INTO friends (myId,friendId,status) VALUES ('"+myId+"','"+friendId+"','"+0+"')";
+            String sqlString2="INSERT INTO friends (myId,friendId,status) VALUES ('"+friendId+"','"+myId+"','"+0+"')";
             Statement s = con.createStatement();
+            Statement s2 = con.createStatement();
             try{    
                 s.executeUpdate(sqlString);
+                s2.executeUpdate(sqlString2);
                 s.close();
+                s2.close();
                 con.close();
-            } catch (SQLException ex) {Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);}
-        } catch (SQLException ex) {Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);}  
+            } catch (SQLException ex) {Logger.getLogger(ChatUser.class.getName()).log(Level.SEVERE, null, ex);}
+        } catch (SQLException ex) {Logger.getLogger(ChatUser.class.getName()).log(Level.SEVERE, null, ex);}  
     }
 }
