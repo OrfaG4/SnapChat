@@ -41,16 +41,12 @@ public class ChatServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException, SQLException {
         String stepId=(String)request.getParameter(STEP);
-        
         if(stepId.equals(RECIVE_MESSAGE)){
-            //will retrieve message attributes...
             String from=request.getParameter(FROM);
             String from_name=request.getParameter(FROM_NAME);
             String to=request.getParameter(TO);
             String message=request.getParameter(MESSAGE);
             String b64 = request.getReader().readLine();
-            //System.out.println("from_user="+from+" from_user_name="+from_name+" to_user="+to+" message=["+message+"]"+"img: "+b64);
-            //System.out.println("Reader: "+request.getReader().readLine());
             ChatMessage chatMessage=new ChatMessage();
             chatMessage.setFrom_user(Integer.parseInt(from));
             chatMessage.setTo_user(Integer.parseInt(to));
@@ -64,7 +60,6 @@ public class ChatServlet extends HttpServlet {
             chatHelper.recievedMessage(chatMessage);
         }else if(stepId.equals(REQUEST_MESSAGE)){
             String userId=request.getParameter(USER_ID);
-            //System.out.println("Request messages for the user="+userId);
             chatHelper.loginUser(Integer.parseInt(userId));
             ChatMessage[] messages=chatHelper.getUserMessages(Integer.parseInt(userId), ChatConfig.RECIEVE_MAX_MESSAGE_PER_CALL);
             if(messages!=null && messages.length>0){
@@ -73,19 +68,16 @@ public class ChatServlet extends HttpServlet {
                 response.setHeader(MESSAGE_COUNT, ""+messages.length);
                 PrintWriter out = response.getWriter();
                 try{
-                    //System.out.println("Number of existing messages="+messages.length);
                     if(ChatConfig.responseType==ChatConfig.XML){
                         out.println("<chat_messages>");
                         for(int i=0;i<messages.length;i++){
                             String messageAsXML=messages[i].toXML();
-                            //System.out.println(messageAsXML);
                             out.println(messageAsXML);
                         }
                         out.println("</chat_messages>");
                     }else{
                         for(int i=0;i<messages.length;i++){
                             String messageAsString=messages[i].toMultipleValues();
-                            //System.out.println(messageAsString);
                             out.print(messageAsString);
                         }
                     }
@@ -98,22 +90,18 @@ public class ChatServlet extends HttpServlet {
             }
         }else if(stepId.equals(LOGOFF)){
             String userId=request.getParameter(USER_ID);
-            //System.out.println("Logoff user="+userId);
             chatHelper.logOffUser(Integer.parseInt(userId));
             LogoutController lc = new LogoutController();
             lc.doLogout(request, response);
-            //request.getRequestDispatcher("/index.jsp").forward(request, response);
         }else if(stepId.equals(REFRESH_CONTACT_LIST)){
             String statusList="";
-            ArrayList<ChatUser> contactList =null; //= (ArrayList<ChatUser>)request.getSession().getAttribute("friends");
+            ArrayList<ChatUser> contactList =null;
             HttpSession s = request.getSession();
             contactList = (ArrayList<ChatUser>)s.getAttribute("friendsList");
             if(contactList!=null && contactList.size()>0){
                 for(int i=0;i<contactList.size();i++){
                     int status=chatHelper.getUserStatus(Integer.parseInt(contactList.get(i).getId()));
-                    //System.out.println("Status Before: "+contactList.get(i).getUsername()+" "+contactList.get(i).getStatus());
                     contactList.get(i).setStatus(status);
-                    //System.out.println("Status After: "+contactList.get(i).getStatus());
                     statusList+=contactList.get(i).getId()+"ø"+contactList.get(i).getUsername()+"ø"+status+"ø";
                 }
                 s.setAttribute("friendsList", contactList);
@@ -122,7 +110,6 @@ public class ChatServlet extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 response.setHeader(CONTACT_COUNT, ""+contactList.size());
                 try{
-                    //System.out.println("will send back the following status list="+statusList);
                     out.print(statusList);
                 }catch(Exception e){
                     System.out.println("Error: "+e.getMessage());
