@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.User;
+import models.ChatUser;
 //@WebServlet(name="register",urlPatterns={"/register"})
 public class RegisterController extends HttpServlet{
     
@@ -16,8 +16,9 @@ public class RegisterController extends HttpServlet{
        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pw = response.getWriter();
+        pw.println("registering...");
         try{
-            User user = new User();
+            ChatUser user = new ChatUser();
             user.setLname(request.getParameter("fname"));
             user.setFname(request.getParameter("lname"));
             user.setUsername(request.getParameter("username"));
@@ -25,6 +26,7 @@ public class RegisterController extends HttpServlet{
             user.setEmail(request.getParameter("email"));
             user.register();
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            if(rd != null)
             rd.forward(request,response);
             } finally {pw.close();}
         }
