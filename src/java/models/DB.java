@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Orfa
+ * @author SnapChat TEAM
  */
 public class DB {
     public Connection connect(){
