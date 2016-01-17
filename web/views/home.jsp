@@ -181,39 +181,57 @@
             function updateUserStatus(user_no,user_name,newStatus){
                 //document.getElementById('user_'+user_no).src='/SnapChat1/images/'+type+newStatus+'.png';
                 if(newStatus==<%=ChatUser.ONLINE%>){
-                    alert("online");
                     document.getElementById('user_'+user_no).onclick=function(){ openNewChat(user_no,user_name)}
                     $('#user_'+user_no).prop('disabled', false);
                 }else{
                     document.getElementById('user_'+user_no).onclick="";
-                    alert("offline");
                     $('#user_'+user_no).prop('disabled', true);
                 }
             }
             
             $(document).ready(function(){
                 $('.clearSnap').click(function(){
-                    //alert("abc");
                     $('#formfield').val("");
-                })
-            })
+                });
+            });
         </script>             
     </head>
     <body  onload='setTimeout("update()",refreshRate);'>
         <jsp:useBean id="user" scope="request" class="models.ChatUser"></jsp:useBean>
-	<%@ include file="../template/menu.html" %>
+	      <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Welcome <% out.print(s.getAttribute("username")); %></a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="home">Προφίλ</a></li>
+              <li><a href="friends">Κάνε Φίλους</a></li>
+              <li><a href="/SnapChat3/ChatServlet?step=5&userId=<%= activeUser.getId()%>">Logout</a></li>
+            </ul>
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search" method="post" action="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="username" value="<jsp:getProperty name="user" property="username"/>">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+                </form>
+            </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
         <div class="container-fluid">
             <div class="col-md-12">
-                <div class="bg-success col-md-12" style="padding:20px; margin:20px;" >
-                    <span class="h3">Αναζήτηση </span>
-                    <form class="form-inline" action="search" method="POST">
-                        <input type='text' name="username" value="<jsp:getProperty name="user" property="username"/>">
-                        <button class="btn btn-primary" type="submit">Αναζήτηση</button>
-                    </form>
-                    
-                </div>
                 <!-- Create Message Area -->
-                <div class="col-md-3">
+                <div class="col-md-3" style="border-right: 1px white solid">
                     <div id="webcam"></div>
                     <h1>Κάνε Snap</h1>
                     <button class="btn btn-default takeSnap" id="btn2" onclick="base64_tofield_and_image()">Snap!</button><br/><br/>
@@ -242,24 +260,22 @@
                             });
                         });
                     </script>
-                    <br>
-                    <a href="/SnapChat1/ChatServlet?step=5&userId=<%= activeUser.getId()%>" id="showHideBtn" class="btn btn-danger col-md-6">Αποσύνδεση</a>
                 </div>
-                 <div class="col-md-3">
+                 <div class="col-md-3 col-md-offset-1">
                     <div class=" col-md-12">
                         <button id="showHideBtn" class="btn btn-primary  col-md-12">Φίλοι</button>
                     </div>
                     <div id="showHide" class=" col-md-12">
                         <table class = "table table-condensed noBorders">
-                            <caption><b>Λίστα φίλων</b></caption>
-                            <tbody>
+                            <caption><b style="color:white;">Λίστα φίλων</b></caption>
+                            <tbody style="overflow-y: auto;">
                                 <c:forEach var="friend" items="${friends}">
                                     <tr>
                                         <td>
-                                            <li class="list-group-item" style="padding:20px;">
+                                            <li class="list-group-item" style="padding:5px; background: rgba(255,255,255,0.5);">
                                                 <input type="hidden" id="friendId" type="text" value="${friend.id}">
                                                 <span style="margin-right: 15px;">
-                                                     <button id="user_${friend.id}" class="btn btn-success startChat " onclick="openNewChat(${friend.id},'${friend.username}')">Chat</button> 
+                                                     <button id="user_${friend.id}" class="btn btn-success btn-sm startChat " onclick="openNewChat(${friend.id},'${friend.username}')">Chat</button> 
                                                 </span>
                                                 <span class="h3">${friend.username}</span>
                                             </li>
@@ -271,7 +287,7 @@
                     </div>
                 </div>
                 <!-- Chat area -->
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div id="global_div" class="col-md-12">
                         
                     </div>
