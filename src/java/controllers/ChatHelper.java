@@ -19,7 +19,7 @@ public class ChatHelper implements Runnable{
     private Thread cleanThread;
     private static ArrayList<ChatUser> usersList;
 
-    private ChatHelper(){
+    ChatHelper(){
         cleanThread=new Thread(this);
         cleanThread.start();
     }
@@ -74,6 +74,7 @@ public class ChatHelper implements Runnable{
         ChatUser cu = new ChatUser();
         usersList = cu.getAllUsers();
         onlineUsers.put(user_id, new Date());
+        System.out.println("User logged in");
         for(int i=0;i<usersList.size();i++){
             if(usersList.get(i).getId().equals(String.valueOf(user_id))){
                 usersList.get(i).setStatus(ChatUser.ONLINE);
