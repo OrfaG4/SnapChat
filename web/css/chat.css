@@ -1,19 +1,26 @@
 .chat-wrapper{
     border-radius: 20px;
-    box-shadow: 3px 3px 10px #999;
+    box-shadow: 0px 0px 10px #333;
     margin-bottom: 15px;
+    max-height: 500px;
 }
 .chat-header{
     padding:10px;
+    background: none;
 }
 .chat-body{
-    height: 300px;
-    max-height: 300px;
+    height: 250px;
+    max-height: 250px;
     overflow: auto;
     padding: 20px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    
 }
 .chat-time-arrived{
     padding:5px;
+    background: none;
+    border:none;
 }
 .chat-btn-send, .chat-btn-clear,.chat-btn-snap{
     margin-top: 15px;
@@ -22,7 +29,7 @@
 .chat-input{
     padding:10px;
     border-radius: 5px;
-    background: rgba(30,144,255,0.5);
+    background: rgba(30,144,255,0.3);
     color: black;
 }
 .chat-message1{
